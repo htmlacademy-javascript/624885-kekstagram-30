@@ -24,3 +24,7 @@ const getNumberFromString = function (str) {
   }
   return parseInt(resultString, 10);
 };
+
+checkStringLength('проверяемая строка', 20);
+checkRevesableString('Лёша на полке клопа нашёл ');
+getNumberFromString('1 кефир, 0.5 батона');
