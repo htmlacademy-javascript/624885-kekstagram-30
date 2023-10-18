@@ -47,20 +47,20 @@ const COMMENTS_NAMES = [
 ];
 
 function getRandomNumber(from, to) {
-  if (to > from) {
-    return Math.round(Math.random() * (to - from) + from);
-  }
-  return undefined;
+  const lower = Math.ceil(Math.min(Math.abs(from), Math.abs(to)));
+  const upper = Math.floor(Math.max(Math.abs(to), Math.abs(from)));
+  return Math.round(Math.random() * (upper - lower) + lower);
 }
 
 const getRandomArrayElement = (array) => array[getRandomNumber(0, array.length - 1)];
 
-const commentIds = {};
 const getCommentId = () => {
+  const commentIds = [];
   let id = getRandomNumber(1,1000);
   while(id in commentIds) {
     id = getRandomNumber(1,1000);
   }
+  commentIds.push(id);
   return id;
 };
 
@@ -87,6 +87,6 @@ const createPost = (postId) => ({
 });
 
 const posts = [];
-for(let i = 0;i < 25;i++) {
+for(let i = 1;i <= 25;i++) {
   posts.push(createPost(i));
 }
