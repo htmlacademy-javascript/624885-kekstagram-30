@@ -54,15 +54,22 @@ function getRandomNumber(from, to) {
 
 const getRandomArrayElement = (array) => array[getRandomNumber(0, array.length - 1)];
 
-const getCommentId = () => {
+const generateCommentId = (from, to) => {
   const commentIds = [];
-  let id = getRandomNumber(1,1000);
-  while(id in commentIds) {
-    id = getRandomNumber(1,1000);
-  }
-  commentIds.push(id);
-  return id;
+  return () => {
+    let id = getRandomNumber(from, to);
+    if (commentIds.length >= (to - from + 1)) {
+      return null;
+    }
+    while(id in commentIds) {
+      id = getRandomNumber(from, to);
+    }
+    commentIds.push(id);
+    return id;
+  };
 };
+
+const getCommentId = generateCommentId(1, 50);
 
 const getCommentMessage = () => {
   if(getRandomNumber(0,1) === 1) {
