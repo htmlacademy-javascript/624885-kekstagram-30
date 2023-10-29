@@ -33,7 +33,7 @@ const DESCRIPTIONS = [
 const createPost = (postId) => ({
   id: postId,
   url: `photos/${ postId }.jpg`,
-  description: DESCRIPTIONS[postId],
+  description: DESCRIPTIONS[postId - 1],
   likes: getRandomNumber(15, 200),
   comments: Array.from({length: getRandomNumber(1, 5)}, createComment)
 });

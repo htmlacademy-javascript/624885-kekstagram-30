@@ -1,3 +1,1 @@
-import { createPosts } from './data';
-
-createPosts();
+import './pictures';
