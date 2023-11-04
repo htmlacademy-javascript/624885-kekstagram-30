@@ -35,12 +35,7 @@ const checkTime = (startWorkDay, endWorkDay, startMeeting, duration) => {
   return true;
 };
 
-console.log(checkTime('08:00', '17:30', '14:00', 90)); // true
-console.log(checkTime('8:0', '10:0', '8:0', 120));     // true
-console.log(checkTime('08:00', '14:30', '14:00', 90)); // false
-console.log(checkTime('14:00', '17:30', '08:0', 90));  // false
-console.log(checkTime('8:00', '17:30', '08:00', 900)); // false
-
 checkStringLength('проверяемая строка', 20);
 checkReversableString('Лёша на полке клопа нашёл ');
 getNumberFromString('1 кефир, 0.5 батона');
+checkTime('08:00', '17:00', '14:00', 5);
