@@ -1,4 +1,6 @@
+import { showBigPicture } from './big-picture.js';
 import { createPosts } from './data.js';
+import { getFilnameFromURL } from './utils.js';
 
 const picturesContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture')
@@ -21,3 +23,9 @@ picturesList.forEach(({url, description, comments, likes}) => {
 });
 
 picturesContainer.appendChild(picturesFragment);
+picturesContainer.addEventListener('click', (evt) => {
+  if(evt.target.matches('.picture__img')) {
+    const element = picturesList.find((el) => getFilnameFromURL(el.url) === getFilnameFromURL(evt.target.src));
+    showBigPicture(element);
+  }
+});
