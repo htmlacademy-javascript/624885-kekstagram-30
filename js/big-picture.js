@@ -4,7 +4,11 @@ const MAX_COMMENTS_SHOWN = 2;
 const bigPictureElement = document.querySelector('.big-picture');
 const closeBigPicture = bigPictureElement.querySelector('#picture-cancel');
 
-closeBigPicture.addEventListener('click', hideBigPicture);
+const onPictureCancelButtonClick = () => {
+  hideBigPicture();
+};
+
+closeBigPicture.addEventListener('click', onPictureCancelButtonClick);
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
