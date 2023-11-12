@@ -6,4 +6,6 @@ function getRandomNumber(from, to) {
 
 const getRandomArrayElement = (array) => array[getRandomNumber(0, array.length - 1)];
 
-export {getRandomNumber, getRandomArrayElement};
+const checkArrayForDublicates = (array) => array.every((item, index) => array.indexOf(item) === index);
+
+export {getRandomNumber, getRandomArrayElement, checkArrayForDublicates};

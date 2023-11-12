@@ -1,1 +1,2 @@
-import './pictures';
+import './pictures.js';
+import './form.js';
