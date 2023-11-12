@@ -6,4 +6,8 @@ function getRandomNumber(from, to) {
 
 const getRandomArrayElement = (array) => array[getRandomNumber(0, array.length - 1)];
 
-export {getRandomNumber, getRandomArrayElement};
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+const getFilnameFromURL = (url) => url.split('/').pop();
+
+export {getRandomNumber, getRandomArrayElement, isEscapeKey, getFilnameFromURL};
