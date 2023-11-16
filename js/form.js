@@ -1,3 +1,4 @@
+import { initScale } from './scale.js';
 import { checkArrayForDublicates, isEscapeKey } from './utils.js';
 
 const MAX_HASHTAG_COUNT = 5;
@@ -44,6 +45,7 @@ const showUploadOverlay = () => {
   overlayElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
+  initScale();
 };
 
 const onInputFileChange = () => {
