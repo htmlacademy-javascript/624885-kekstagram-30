@@ -1,3 +1,4 @@
+import { resetEffect } from './effects.js';
 import { initScale } from './scale.js';
 import { checkArrayForDublicates, isEscapeKey } from './utils.js';
 
@@ -23,6 +24,7 @@ const hideUploadOverlay = () => {
   formElement.reset();
   pristine.reset();
   document.removeEventListener('keydown', onDocumentKeydown);
+  resetEffect();
 };
 
 const isTextFieldFocused = () =>
