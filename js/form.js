@@ -1,4 +1,4 @@
-import { checkArrayForDublicates } from './utils.js';
+import { checkArrayForDublicates, isEscapeKey } from './utils.js';
 
 const MAX_HASHTAG_COUNT = 5;
 
@@ -21,7 +21,19 @@ const hideUploadOverlay = () => {
   document.body.classList.remove('modal-open');
   formElement.reset();
   pristine.reset();
+  document.removeEventListener('keydown', onDocumentKeydown);
 };
+
+const isTextFieldFocused = () =>
+  document.activeElement === hashtagsInput ||
+  document.activeElement === descriptionInput;
+
+function onDocumentKeydown(evt) {
+  if (isEscapeKey(evt) && !isTextFieldFocused()) {
+    evt.preventDefault();
+    hideUploadOverlay();
+  }
+}
 
 const onUploadCancelButtonClick = () => {
   hideUploadOverlay();
@@ -31,6 +43,7 @@ overlayCancelButton.addEventListener('click', onUploadCancelButtonClick);
 const showUploadOverlay = () => {
   overlayElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
+  document.addEventListener('keydown', onDocumentKeydown);
 };
 
 const onInputFileChange = () => {
