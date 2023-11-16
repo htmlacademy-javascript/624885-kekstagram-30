@@ -1,5 +1,5 @@
-import { getRandomNumber } from './utils';
-import { createComment } from './comments';
+import { getRandomNumber } from './utils.js';
+import { createComment } from './data-comments.js';
 
 const DESCRIPTIONS = [
   'Пляж',
@@ -29,13 +29,12 @@ const DESCRIPTIONS = [
   'Атака бегемотов',
 ];
 
-
 const createPost = (postId) => ({
   id: postId,
   url: `photos/${ postId }.jpg`,
   description: DESCRIPTIONS[postId - 1],
   likes: getRandomNumber(15, 200),
-  comments: Array.from({length: getRandomNumber(1, 5)}, createComment)
+  comments: Array.from({length: getRandomNumber(0, 30)}, createComment)
 });
 
 const createPosts = () => {

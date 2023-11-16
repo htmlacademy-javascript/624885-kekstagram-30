@@ -8,4 +8,8 @@ const getRandomArrayElement = (array) => array[getRandomNumber(0, array.length -
 
 const checkArrayForDublicates = (array) => array.every((item, index) => array.indexOf(item) === index);
 
-export {getRandomNumber, getRandomArrayElement, checkArrayForDublicates};
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+const getFilnameFromURL = (url) => url.split('/').pop();
+
+export {getRandomNumber, getRandomArrayElement, isEscapeKey, getFilnameFromURL, checkArrayForDublicates};
