@@ -1,54 +1,49 @@
-import { getRandomNumber, getRandomArrayElement } from './utils';
+const MAX_COMMENTS_SHOWN = 5;
 
-const COMMENTS_MESSAGES = [
-  'Всё отлично!',
-  'В целом всё неплохо. Но не всё.',
-  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
-  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
-  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
-];
+const bigPictureElement = document.querySelector('.big-picture');
+const commentsContainer = bigPictureElement.querySelector('.social__comments');
+const commentTemplate = document.querySelector('#comment')
+  .content
+  .querySelector('.social__comment');
 
-const COMMENTS_NAMES = [
-  'Иван',
-  'Хуан Себастьян',
-  'Мария',
-  'Кристоф',
-  'Виктор',
-  'Юлия',
-  'Люпита',
-  'Вашингтон',
-];
+const commentsTotalElement = bigPictureElement.querySelector('.social__comment-total-count');
+const commentsShownElement = bigPictureElement.querySelector('.social__comment-shown-count');
+const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
 
-const generateCommentId = (from, to) => {
-  const commentIds = [];
-  return () => {
-    let id = getRandomNumber(from, to);
-    if (commentIds.length >= (to - from + 1)) {
-      return null;
-    }
-    while(id in commentIds) {
-      id = getRandomNumber(from, to);
-    }
-    commentIds.push(id);
-    return id;
-  };
+let commentsCountShown = 0;
+
+const createComment = ({avatar, name, message}) => {
+  const newComment = commentTemplate.cloneNode(true);
+  newComment.querySelector('.social__picture').src = avatar;
+  newComment.querySelector('.social__picture').alt = name;
+  newComment.querySelector('.social__text').textContent = message;
+
+  return newComment;
 };
 
-const getCommentId = generateCommentId(1, 50);
-
-const getCommentMessage = () => {
-  if(getRandomNumber(0,1) === 1) {
-    return `${getRandomArrayElement(COMMENTS_MESSAGES) } ${ getRandomArrayElement(COMMENTS_MESSAGES)}`;
+const showComments = (comments) => {
+  commentsCountShown += MAX_COMMENTS_SHOWN;
+  if(commentsCountShown >= comments.length) {
+    commentsCountShown = comments.length;
+    commentsLoaderElement.classList.add('hidden');
+  } else {
+    commentsLoaderElement.classList.remove('hidden');
   }
-  return getRandomArrayElement(COMMENTS_MESSAGES);
+  commentsContainer.innerHTML = '';
+  const commentsFragment = document.createDocumentFragment();
+
+  for(let i = 0;i < commentsCountShown;i++) {
+    const commentElement = createComment(comments[i]);
+    commentsFragment.append(commentElement);
+  }
+  commentsContainer.append(commentsFragment);
+
+  commentsTotalElement.textContent = comments.length;
+  commentsShownElement.textContent = commentsCountShown;
 };
 
-const createComment = () => ({
-  id: getCommentId(),
-  avatar: `img/avatar-${ getRandomNumber(1, 6) }.svg`,
-  message: getCommentMessage(),
-  name: getRandomArrayElement(COMMENTS_NAMES),
-});
+const initComments = () => {
+  commentsCountShown = 0;
+};
 
-export { createComment };
+export {showComments, initComments};

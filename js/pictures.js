@@ -1,4 +1,5 @@
 import { showBigPicture } from './big-picture.js';
+import { initComments } from './comments.js';
 import { createPosts } from './data.js';
 
 const picturesContainer = document.querySelector('.pictures');
@@ -28,6 +29,7 @@ picturesContainer.addEventListener('click', (evt) => {
   if(picture) {
     evt.preventDefault();
     const element = picturesList.find(({id}) => id === +picture.dataset.pictureId);
+    initComments();
     showBigPicture(element);
   }
 });
