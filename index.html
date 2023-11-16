@@ -30,7 +30,14 @@
       <section class="img-upload">
         <div class="img-upload__wrapper">
           <h2 class="img-upload__title  visually-hidden">Загрузка фотографии</h2>
-          <form class="img-upload__form" id="upload-select-image" autocomplete="off">
+          <form
+            class="img-upload__form"
+            id="upload-select-image"
+            method="post"
+            action="https://30.javascript.pages.academy/kekstagram"
+            enctype="multipart/form-data"
+            autocomplete="off"
+          >
 
             <!-- Изначальное состояние поля для загрузки изображения -->
             <fieldset class="img-upload__start">
@@ -119,7 +126,7 @@
                     <input class="text__hashtags" name="hashtags" placeholder="#ХэшТег">
                   </div>
                   <div class="img-upload__field-wrapper">
-                    <textarea class="text__description" name="description" placeholder="Ваш комментарий..."></textarea>
+                    <textarea class="text__description" name="description" placeholder="Ваш комментарий..." maxlength="140"></textarea>
                   </div>
                 </fieldset>
 
@@ -227,21 +234,24 @@
     </section>
   </template>
 
-    <!-- Сообщение с ошибкой загрузки изображений от других пользователей -->
-    <template id="data-error">
-      <section class="data-error">
-        <h2 class="data-error__title">Не удалось загрузить данные</h2>
-      </section>
-    </template>
+  <!-- Сообщение с ошибкой загрузки изображений от других пользователей -->
+  <template id="data-error">
+    <section class="data-error">
+      <h2 class="data-error__title">Не удалось загрузить данные</h2>
+    </section>
+  </template>
 
-    <!-- Комментарий пользователя -->
-    <template id="comment">
-      <li class="social__comment">
-        <img class="social__picture" src="img/avatar-4.svg" alt="Аватар комментатора фотографии" width="35" height="35">
-        <p class="social__text">Мега фото! Просто обалдеть. Как вам так удалось?</p>
-      </li>
-    </template>
-    <script src="./js/functions.js"></script>
-    <script src="./js/main.js" type="module"></script>
+  <!-- Комментарий пользователя -->
+  <template id="comment">
+    <li class="social__comment">
+      <img class="social__picture" src="img/avatar-4.svg" alt="Аватар комментатора фотографии" width="35" height="35">
+      <p class="social__text">Мега фото! Просто обалдеть. Как вам так удалось?</p>
+    </li>
+  </template>
+
+  <script src="./vendor/pristine/pristine.min.js"></script>
+  <script src="./js/functions.js"></script>
+  <script src="./js/main.js" type="module"></script>
+
 </body>
 </html>
