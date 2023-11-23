@@ -1,5 +1,5 @@
 import { showComments } from './comments.js';
-import { isEscapeKey } from './utils.js';
+import { closeByEscape } from './utils.js';
 
 const bigPictureElement = document.querySelector('.big-picture');
 const closeBigPicture = bigPictureElement.querySelector('#picture-cancel');
@@ -25,10 +25,7 @@ const onPictureCancelButtonClick = () => {
 closeBigPicture.addEventListener('click', onPictureCancelButtonClick);
 
 function onDocumentKeydown(evt) {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    hideBigPicture();
-  }
+  closeByEscape(evt, hideBigPicture);
 }
 
 const showBigPicture = (target) => {
