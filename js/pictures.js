@@ -1,13 +1,18 @@
+import { getPictures } from './api.js';
 import { showBigPicture } from './big-picture.js';
 import { initComments } from './comments.js';
-import { createPosts } from './data.js';
+import { showGetError } from './messages.js';
 
 const picturesContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
-
-const picturesList = createPosts();
+let picturesList = [];
+try {
+  picturesList = await getPictures();
+} catch(err) {
+  showGetError();
+}
 
 const picturesFragment = document.createDocumentFragment();
 

@@ -1,13 +1,21 @@
+import { sendForm } from './api.js';
 import { resetEffect } from './effects.js';
+import { showErrorMessage, showSuccessMessage } from './messages.js';
 import { initScale } from './scale.js';
 import { checkArrayForDublicates, isEscapeKey } from './utils.js';
 
 const MAX_HASHTAG_COUNT = 5;
 
+const SubmitButtonText = {
+  SENDING: 'Отправляю...',
+  IDLE: 'Опубликовать'
+};
+
 const formElement = document.querySelector('#upload-select-image');
 const inputFileElement = formElement.querySelector('.img-upload__input');
 const overlayElement = formElement.querySelector('.img-upload__overlay');
 const overlayCancelButton = formElement.querySelector('.img-upload__cancel');
+const overlaySubmitButton = formElement.querySelector('.img-upload__submit');
 
 const hashtagsInput = formElement.querySelector('.text__hashtags');
 const descriptionInput = formElement.querySelector('.text__description');
@@ -31,8 +39,10 @@ const isTextFieldFocused = () =>
   document.activeElement === hashtagsInput ||
   document.activeElement === descriptionInput;
 
+const isErrorMessageExist = () => Boolean(document.querySelector('.error'));
+
 function onDocumentKeydown(evt) {
-  if (isEscapeKey(evt) && !isTextFieldFocused()) {
+  if (isEscapeKey(evt) && !isTextFieldFocused() && !isErrorMessageExist()) {
     evt.preventDefault();
     hideUploadOverlay();
   }
@@ -70,8 +80,32 @@ pristine.addValidator(hashtagsInput, hashtagDublicateValidator, 'хэш-теги
 pristine.addValidator(hashtagsInput, hastagLengthValidator, 'Превышено количество хэш-тегов');
 pristine.addValidator(hashtagsInput, hashtagValidator, 'Введён невалидный хэш-тег');
 
+const toggleSubmitButton = (isSending) => {
+  overlaySubmitButton.disabled = isSending;
+  overlaySubmitButton.textContent = isSending
+    ? SubmitButtonText.SENDING
+    : SubmitButtonText.IDLE;
+};
 
-formElement.addEventListener('submit', (evt) => {
+const sendFormData = async (form) => {
+  if(!pristine.validate()) {
+    return;
+  }
+  try {
+    toggleSubmitButton(true);
+    await sendForm(new FormData(form));
+    toggleSubmitButton(false);
+    hideUploadOverlay();
+    showSuccessMessage();
+  } catch {
+    showErrorMessage();
+    toggleSubmitButton(false);
+  }
+};
+
+const onFormSubmit = (evt) => {
   evt.preventDefault();
-  pristine.validate();
-});
+  sendFormData(evt.target);
+};
+
+formElement.addEventListener('submit', onFormSubmit);

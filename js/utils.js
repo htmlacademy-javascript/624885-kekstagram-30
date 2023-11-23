@@ -10,6 +10,13 @@ const checkArrayForDublicates = (array) => array.every((item, index) => array.in
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
+const closeByEscape = (evt, callback) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    callback();
+  }
+};
+
 const getFilnameFromURL = (url) => url.split('/').pop();
 
-export {getRandomNumber, getRandomArrayElement, isEscapeKey, getFilnameFromURL, checkArrayForDublicates};
+export { getRandomNumber, getRandomArrayElement, isEscapeKey, closeByEscape, getFilnameFromURL, checkArrayForDublicates};
