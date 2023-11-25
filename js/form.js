@@ -5,11 +5,18 @@ import { initScale } from './scale.js';
 import { checkArrayForDublicates, isEscapeKey } from './utils.js';
 
 const MAX_HASHTAG_COUNT = 5;
+const ValidateMessages = {
+  INVALID: 'Введён невалидный хэш-тег',
+  LENGTH: 'Превышено количество хэш-тегов',
+  DUBLICATE: 'Хэш-теги повторяются'
+};
 
 const SubmitButtonText = {
   SENDING: 'Отправляю...',
   IDLE: 'Опубликовать'
 };
+
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const formElement = document.querySelector('#upload-select-image');
 const inputFileElement = formElement.querySelector('.img-upload__input');
@@ -19,6 +26,11 @@ const overlaySubmitButton = formElement.querySelector('.img-upload__submit');
 
 const hashtagsInput = formElement.querySelector('.text__hashtags');
 const descriptionInput = formElement.querySelector('.text__description');
+
+const uploadPreview = formElement.querySelector('.img-upload__preview img');
+const effectsPreviews = formElement.querySelectorAll('.effects__preview');
+
+let uploadFileURL;
 
 const pristine = new Pristine(formElement, {
   classTo: 'img-upload__field-wrapper',
@@ -33,6 +45,7 @@ const hideUploadOverlay = () => {
   pristine.reset();
   document.removeEventListener('keydown', onDocumentKeydown);
   resetEffect();
+  URL.revokeObjectURL(uploadFileURL);
 };
 
 const isTextFieldFocused = () =>
@@ -60,7 +73,20 @@ const showUploadOverlay = () => {
   initScale();
 };
 
+const isValidType = (file) => {
+  const fileName = file.name.toLowerCase();
+  return FILE_TYPES.some((it) => fileName.endsWith(it));
+};
+
 const onInputFileChange = () => {
+  const file = inputFileElement.files[0];
+  if(file && isValidType(file)) {
+    uploadFileURL = URL.createObjectURL(file);
+    uploadPreview.src = uploadFileURL;
+    effectsPreviews.forEach((item) => {
+      item.style.backgroundImage = `url('${uploadPreview.src}')`;
+    });
+  }
   showUploadOverlay();
 };
 inputFileElement.addEventListener('change', onInputFileChange);
@@ -76,9 +102,9 @@ const hashtagValidator = (value) => hashtagStringToArray(value).every(hashtagVal
 const hashtagDublicateValidator = (value) => checkArrayForDublicates(hashtagStringToArray(value));
 const hastagLengthValidator = (value) => hashtagStringToArray(value).length <= MAX_HASHTAG_COUNT;
 
-pristine.addValidator(hashtagsInput, hashtagDublicateValidator, 'хэш-теги повторяются');
-pristine.addValidator(hashtagsInput, hastagLengthValidator, 'Превышено количество хэш-тегов');
-pristine.addValidator(hashtagsInput, hashtagValidator, 'Введён невалидный хэш-тег');
+pristine.addValidator(hashtagsInput, hashtagDublicateValidator, ValidateMessages.DUBLICATE);
+pristine.addValidator(hashtagsInput, hastagLengthValidator, ValidateMessages.LENGTH);
+pristine.addValidator(hashtagsInput, hashtagValidator, ValidateMessages.INVALID);
 
 const toggleSubmitButton = (isSending) => {
   overlaySubmitButton.disabled = isSending;
