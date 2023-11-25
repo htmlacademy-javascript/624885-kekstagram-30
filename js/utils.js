@@ -15,8 +15,6 @@ const getUniqRandomNumbers = (from, to, qty) => {
   return randomNumbers;
 };
 
-const getRandomArrayElement = (array) => array[getRandomNumber(0, array.length - 1)];
-
 const checkArrayForDublicates = (array) => array.every((item, index) => array.indexOf(item) === index);
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
@@ -28,9 +26,7 @@ const closeByEscape = (evt, callback) => {
   }
 };
 
-const getFilnameFromURL = (url) => url.split('/').pop();
-
-function debounce (callback, timeoutDelay = 500) {
+const debounce = (callback, timeoutDelay = 500) => {
   // Используем замыкания, чтобы id таймаута у нас навсегда приклеился
   // к возвращаемой функции с setTimeout, тогда мы его сможем перезаписывать
   let timeoutId;
@@ -46,6 +42,6 @@ function debounce (callback, timeoutDelay = 500) {
     // Таким образом цикл «поставить таймаут - удалить таймаут» будет выполняться,
     // пока действие совершается чаще, чем переданная задержка timeoutDelay
   };
-}
+};
 
-export { getRandomNumber, getUniqRandomNumbers, getRandomArrayElement, isEscapeKey, closeByEscape, getFilnameFromURL, checkArrayForDublicates, debounce};
+export { getUniqRandomNumbers, isEscapeKey, closeByEscape, checkArrayForDublicates, debounce};
