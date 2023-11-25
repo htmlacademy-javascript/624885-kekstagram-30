@@ -6,7 +6,7 @@ const formElement = document.querySelector('#upload-select-image');
 const smallerButton = formElement.querySelector('.scale__control--smaller');
 const biggerButton = formElement.querySelector('.scale__control--bigger');
 const scaleValueElement = formElement.querySelector('.scale__control--value');
-const imageElement = formElement.querySelector('.img-upload__preview');
+const imageElement = formElement.querySelector('.img-upload__preview img');
 
 let scaleValue = MAX_SCALE;
 
