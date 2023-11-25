@@ -131,6 +131,7 @@ const sendFormData = async (form) => {
 
 const onFormSubmit = (evt) => {
   evt.preventDefault();
+  pristine.reset();
   sendFormData(evt.target);
 };
 

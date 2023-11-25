@@ -44,14 +44,15 @@ const EFFECTS = {
 };
 
 const formElement = document.querySelector('#upload-select-image');
+const sliderPlaceElement = formElement.querySelector('.img-upload__effect-level');
 const sliderElement = formElement.querySelector('.effect-level__slider');
 const sliderInput = formElement.querySelector('.effect-level__value');
-const imageElement = formElement.querySelector('.img-upload__preview');
+const imageElement = formElement.querySelector('.img-upload__preview img');
 const effectElements = formElement.querySelectorAll('.effects__radio');
 
 let currentEffect = 'none';
 
-sliderElement.classList.add('hidden');
+sliderPlaceElement.classList.add('hidden');
 noUiSlider.create (sliderElement, {
   range: { min:0, max:100},
   start:100,
@@ -76,16 +77,16 @@ const applySlider = (filterString) => {
 
 sliderElement.noUiSlider.on('update', () => {
   const value = sliderElement.noUiSlider.get();
-  sliderInput.value = value;
+  sliderInput.value = Number(value);
   const filterString = currentEffect.effect === 'none' ? 'none' : `${currentEffect.effect}(${value}${currentEffect.units})`;
   applySlider(filterString);
 });
 
 const onEffectsRadioChange = (evt) => {
   if(evt.target.value === 'none') {
-    sliderElement.classList.add('hidden');
+    sliderPlaceElement.classList.add('hidden');
   } else {
-    sliderElement.classList.remove('hidden');
+    sliderPlaceElement.classList.remove('hidden');
   }
   currentEffect = EFFECTS[evt.target.value];
   updateSlider(currentEffect);
@@ -93,7 +94,7 @@ const onEffectsRadioChange = (evt) => {
 effectElements.forEach((element) => element.addEventListener('change', onEffectsRadioChange));
 
 const resetEffect = () => {
-  sliderElement.classList.add('hidden');
+  sliderPlaceElement.classList.add('hidden');
   updateSlider(EFFECTS['none']);
 };
 

@@ -20,6 +20,7 @@ const getRandomPictures = (data) => {
 };
 
 const getDiscussedPictures = (data) => data.slice().sort((item1, item2) => item2.comments.length - item1.comments.length);
+const debouncedRender = debounce(renderPictures);
 
 const applyFilter = (filter, data) => {
   let filteredData;
@@ -34,40 +35,39 @@ const applyFilter = (filter, data) => {
       filteredData = getDiscussedPictures(data);
       break;
   }
-  renderPictures(filteredData);
+  debouncedRender(filteredData);
+};
+const changeActiveButton = (button) => {
   const currentActiveFilter = imageFilters.querySelector('.img-filters__button--active');
   currentActiveFilter.classList.remove('img-filters__button--active');
+  button.classList.add('img-filters__button--active');
 };
 
 const onDefaultButtonClick = (data) => {
+  changeActiveButton(defaultButton);
   applyFilter(Filters.DEFAULT, data);
-  defaultButton.classList.add('img-filters__button--active');
 };
 
 const onRandomButtonClick = (data) => {
+  changeActiveButton(randomButton);
   applyFilter(Filters.RANDOM, data);
-  randomButton.classList.add('img-filters__button--active');
 };
 
 const onDiscussedButtonClick = (data) => {
+  changeActiveButton(discussedButton);
   applyFilter(Filters.DISCUSSED, data);
-  discussedButton.classList.add('img-filters__button--active');
 };
-
-const debouncedDefaultClick = debounce(onDefaultButtonClick);
-const debouncedRandomClick = debounce(onRandomButtonClick);
-const debouncedDiscussedClick = debounce(onDiscussedButtonClick);
 
 const initFilters = (data) => {
   imageFilters.classList.remove('img-filters--inactive');
   defaultButton.addEventListener('click', () => {
-    debouncedDefaultClick(data);
+    onDefaultButtonClick(data);
   });
   randomButton.addEventListener('click', () => {
-    debouncedRandomClick(data);
+    onRandomButtonClick(data);
   });
   discussedButton.addEventListener('click', () => {
-    debouncedDiscussedClick(data);
+    onDiscussedButtonClick(data);
   });
 };
 

@@ -15,7 +15,10 @@ const getUniqRandomNumbers = (from, to, qty) => {
   return randomNumbers;
 };
 
-const checkArrayForDublicates = (array) => array.every((item, index) => array.indexOf(item) === index);
+const checkArrayForDublicates = (array) => {
+  const lowerCaseArray = array.map((val) => val.toLowerCase());
+  return lowerCaseArray.length === new Set(lowerCaseArray).size;
+};
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
@@ -26,7 +29,7 @@ const closeByEscape = (evt, callback) => {
   }
 };
 
-const debounce = (callback, timeoutDelay = 500) => {
+const debounce = (callback, timeoutDelay = 400) => {
   // Используем замыкания, чтобы id таймаута у нас навсегда приклеился
   // к возвращаемой функции с setTimeout, тогда мы его сможем перезаписывать
   let timeoutId;
