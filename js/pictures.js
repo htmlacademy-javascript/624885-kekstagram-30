@@ -6,6 +6,18 @@ const pictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
+const initPicturesListener = (picturesList) => {
+  picturesContainer.addEventListener('click', (evt) => {
+    const picture = evt.target.closest('[data-picture-id]');
+    if(picture) {
+      evt.preventDefault();
+      const element = picturesList.find(({id}) => id === +picture.dataset.pictureId);
+      initComments();
+      showBigPicture(element);
+    }
+  });
+};
+
 const clearPicturesContainer = () => {
   picturesContainer
     .querySelectorAll('.picture')
@@ -32,15 +44,6 @@ const renderPictures = (picturesList) => {
   });
 
   picturesContainer.appendChild(picturesFragment);
-  picturesContainer.addEventListener('click', (evt) => {
-    const picture = evt.target.closest('[data-picture-id]');
-    if(picture) {
-      evt.preventDefault();
-      const element = picturesList.find(({id}) => id === +picture.dataset.pictureId);
-      initComments();
-      showBigPicture(element);
-    }
-  });
 };
 
-export { renderPictures };
+export { renderPictures, initPicturesListener };
